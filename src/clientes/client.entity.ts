@@ -1,0 +1,31 @@
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+
+@Entity()
+export class Client {
+  @PrimaryGeneratedColumn()
+  id: number;
+  @Column()
+  cedula: string;
+  @Column()
+  nombre: string;
+  @Column()
+  email: string;
+  @Column()
+  telefono: string;
+  @Column()
+  direccion: string;
+  @Column()
+  departamento: string;
+  @Column()
+  ciudad: string;
+  @CreateDateColumn()
+  createdAt: Date;
+  @UpdateDateColumn()
+  updatedAt: Date;
+}
