@@ -4,12 +4,15 @@ import { Repository } from 'typeorm';
 import { Talla } from './talla.entity';
 import { CreateTallaDto } from './dtos/create-talla.dto';
 import { UpdateTallaDto } from './dtos/update-talla.dto';
+import { Producto } from 'src/products/product.entity';
 
 @Injectable()
 export class TallasService {
   constructor(
     @InjectRepository(Talla)
     private readonly tallaRepository: Repository<Talla>,
+    @InjectRepository(Producto)
+    private readonly productoRepository: Repository<Producto>,
   ) {}
 
   async findAll(): Promise<Talla[]> {
@@ -25,7 +28,19 @@ export class TallasService {
   }
 
   async create(createTallaDto: CreateTallaDto): Promise<Talla> {
-    const talla = this.tallaRepository.create(createTallaDto);
+    const { productoId, ...tallaData } = createTallaDto;
+    const producto = await this.productoRepository.findOne({
+      where: { id: productoId },
+    });
+    if (!producto) {
+      throw new NotFoundException(
+        `Producto with ID ${createTallaDto.productoId} not found`,
+      );
+    }
+    const talla = this.tallaRepository.create({
+      ...tallaData,
+      producto,
+    });
     return this.tallaRepository.save(talla);
   }
 

@@ -1,8 +1,10 @@
+import { Compra } from 'src/compras/compra.entity';
 import { Producto } from 'src/products/product.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -14,8 +16,10 @@ export class Talla {
   id: number;
   @Column()
   talla: string;
-  @OneToMany(() => Producto, (producto) => producto.tallas)
+  @ManyToOne(() => Producto, (producto) => producto.tallas)
   producto: Producto;
+  @OneToMany(() => Compra, (compra) => compra.talla)
+  compras: Compra[];
   @Column()
   @CreateDateColumn()
   createdAt: Date;

@@ -4,12 +4,15 @@ import { Repository } from 'typeorm';
 import { Imagen } from './image.entity';
 import { CreateImagenDto } from './dtos/create-imagen.dto';
 import { UpdateImagenDto } from './dtos/update-imagen.dto';
+import { Producto } from 'src/products/product.entity';
 
 @Injectable()
 export class ImagenesService {
   constructor(
     @InjectRepository(Imagen)
     private readonly imagenRepository: Repository<Imagen>,
+    @InjectRepository(Producto)
+    private readonly productoRepository: Repository<Producto>,
   ) {}
 
   async findAll(): Promise<Imagen[]> {
@@ -25,7 +28,17 @@ export class ImagenesService {
   }
 
   async create(createImagenDto: CreateImagenDto): Promise<Imagen> {
-    const imagen = this.imagenRepository.create(createImagenDto);
+    const { productosId } = createImagenDto;
+    const producto = await this.productoRepository.findOne({
+      where: { id: productosId },
+    });
+    if (!producto) {
+      throw new NotFoundException(`Producto with ID ${productosId} not found`);
+    }
+    const imagen = this.imagenRepository.create({
+      ...createImagenDto,
+      productos: producto,
+    });
     return this.imagenRepository.save(imagen);
   }
 

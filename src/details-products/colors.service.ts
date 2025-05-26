@@ -4,12 +4,15 @@ import { Repository } from 'typeorm';
 import { Color } from './color.entity';
 import { CreateColorDto } from './dtos/create-color.dto';
 import { UpdateColorDto } from './dtos/update-color.dto';
+import { Producto } from 'src/products/product.entity';
 
 @Injectable()
 export class ColorsService {
   constructor(
     @InjectRepository(Color)
     private readonly colorRepository: Repository<Color>,
+    @InjectRepository(Producto)
+    private readonly productoRepository: Repository<Producto>,
   ) {}
 
   async findAll(): Promise<Color[]> {
@@ -25,7 +28,16 @@ export class ColorsService {
   }
 
   async create(createColorDto: CreateColorDto): Promise<Color> {
-    const color = this.colorRepository.create(createColorDto);
+    const { productoId } = createColorDto;
+    const producto = await this.productoRepository.findOne({
+      where: { id: productoId },
+    });
+    if (!producto) {
+      throw new NotFoundException(
+        `Producto with ID ${createColorDto.productoId} not found`,
+      );
+    }
+    const color = this.colorRepository.create({ ...createColorDto, producto });
     return this.colorRepository.save(color);
   }
 

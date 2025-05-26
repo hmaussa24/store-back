@@ -31,13 +31,5 @@ export class CreateProductoDto {
 
   @IsNumber()
   @IsNotEmpty()
-  colorsId: number;
-
-  @IsNumber()
-  @IsNotEmpty()
-  tallasId: number;
-
-  @IsNumber()
-  @IsNotEmpty()
   categoriasId: number;
 }

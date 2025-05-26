@@ -4,4 +4,7 @@ export class CreateTallaDto {
   @IsString()
   @IsNotEmpty()
   talla: string;
+
+  @IsNotEmpty()
+  productoId: number;
 }

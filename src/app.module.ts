@@ -11,6 +11,10 @@ import { ImagenesModule } from './details-products/imagenes.module';
 import { TallasModule } from './details-products/tallas.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { ComprasModule } from './compras/compras.module';
+import { WompiModule } from './wompi/wompi.module';
+import { UrlModule } from './url/url.module';
+import { WhatsAppModule } from './meta/whatsapp.module';
 
 @Module({
   imports: [
@@ -38,6 +42,10 @@ import { AuthModule } from './auth/auth.module';
     TallasModule,
     UsersModule,
     AuthModule,
+    ComprasModule,
+    WompiModule,
+    UrlModule,
+    WhatsAppModule,
   ],
   controllers: [AppController],
   providers: [AppService],

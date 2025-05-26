@@ -1,3 +1,4 @@
+import { Compra } from 'src/compras/compra.entity';
 import { Color } from 'src/details-products/color.entity';
 import { Categotia } from 'src/details-products/cotegoria.entity';
 import { Imagen } from 'src/details-products/image.entity';
@@ -35,12 +36,14 @@ export class Producto {
   createdAt: Date;
   @UpdateDateColumn()
   updatedAt: Date;
-  @ManyToOne(() => Color, (color) => color.producto)
-  colors: Color;
+  @OneToMany(() => Color, (color) => color.producto)
+  colors: Color[];
   @ManyToOne(() => Categotia, (categoria) => categoria.producto)
   categorias: Categotia;
-  @ManyToOne(() => Talla, (talla) => talla.producto)
-  tallas: Talla;
+  @OneToMany(() => Talla, (talla) => talla.producto)
+  tallas: Talla[];
   @OneToMany(() => Imagen, (imagen) => imagen.productos)
   imagenes: Imagen[];
+  @OneToMany(() => Compra, (compra) => compra.producto)
+  compras: Compra[];
 }

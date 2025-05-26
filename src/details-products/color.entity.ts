@@ -1,8 +1,10 @@
+import { Compra } from 'src/compras/compra.entity';
 import { Producto } from 'src/products/product.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -16,8 +18,10 @@ export class Color {
   color: string;
   @Column()
   codigoColor: string;
-  @OneToMany(() => Producto, (producto) => producto.colors)
+  @ManyToOne(() => Producto, (producto) => producto.colors)
   producto: Producto;
+  @OneToMany(() => Compra, (compra) => compra.color)
+  compras: Compra[];
   @Column()
   @CreateDateColumn()
   createdAt: Date;

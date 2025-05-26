@@ -4,8 +4,6 @@ import { Repository } from 'typeorm';
 import { Producto } from './product.entity';
 import { CreateProductoDto } from './dtos/create-producto.dto';
 import { UpdateProductoDto } from './dtos/update-producto.dto';
-import { Color } from 'src/details-products/color.entity';
-import { Talla } from 'src/details-products/talla.entity';
 import { Categotia } from 'src/details-products/cotegoria.entity';
 
 @Injectable()
@@ -13,10 +11,6 @@ export class ProductosService {
   constructor(
     @InjectRepository(Producto)
     private readonly productoRepository: Repository<Producto>,
-    @InjectRepository(Color)
-    private readonly colorRepository: Repository<Color>,
-    @InjectRepository(Talla)
-    private readonly tallaRepository: Repository<Talla>,
     @InjectRepository(Categotia)
     private readonly categoriaRepository: Repository<Categotia>,
   ) {}
@@ -39,20 +33,7 @@ export class ProductosService {
   }
 
   async create(createProductoDto: CreateProductoDto): Promise<Producto> {
-    const { colorsId, tallasId, categoriasId } = createProductoDto;
-    const color = await this.colorRepository.findOne({
-      where: { id: colorsId },
-    });
-    if (!color) {
-      throw new NotFoundException(`Color with ID ${colorsId} not found`);
-    }
-
-    const talla = await this.tallaRepository.findOne({
-      where: { id: tallasId },
-    });
-    if (!talla) {
-      throw new NotFoundException(`Talla with ID ${tallasId} not found`);
-    }
+    const { categoriasId } = createProductoDto;
 
     const categorias = await this.categoriaRepository.findOne({
       where: { id: categoriasId },
@@ -64,8 +45,7 @@ export class ProductosService {
     }
     const producto = this.productoRepository.create({
       ...createProductoDto,
-      colors: color,
-      tallas: talla,
+
       categorias: categorias,
     });
     return this.productoRepository.save(producto);

@@ -14,10 +14,10 @@ import { CreateProductoDto } from './dtos/create-producto.dto';
 import { UpdateProductoDto } from './dtos/update-producto.dto';
 
 @Controller('productos')
-@UseGuards(AuthGuard('jwt'))
 export class ProductosController {
   constructor(private readonly productosService: ProductosService) {}
 
+  @UseGuards(AuthGuard('jwt'))
   @Get()
   findAll() {
     return this.productosService.findAll();
@@ -27,12 +27,12 @@ export class ProductosController {
   findOne(@Param('id') id: string) {
     return this.productosService.findOne(+id);
   }
-
+  @UseGuards(AuthGuard('jwt'))
   @Post()
   create(@Body() createProductoDto: CreateProductoDto) {
     return this.productosService.create(createProductoDto);
   }
-
+  @UseGuards(AuthGuard('jwt'))
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -40,7 +40,7 @@ export class ProductosController {
   ) {
     return this.productosService.update(+id, updateProductoDto);
   }
-
+  @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.productosService.remove(+id);

@@ -8,4 +8,8 @@ export class CreateColorDto {
   @IsString()
   @IsNotEmpty()
   codigoColor: string;
+
+  @IsString()
+  @IsNotEmpty()
+  productoId: number;
 }

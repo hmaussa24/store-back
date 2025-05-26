@@ -4,4 +4,7 @@ export class CreateImagenDto {
   @IsString()
   @IsNotEmpty()
   url: string;
+  @IsString()
+  @IsNotEmpty()
+  productosId: number;
 }

@@ -1,7 +1,9 @@
+import { Compra } from 'src/compras/compra.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -24,6 +26,8 @@ export class Client {
   departamento: string;
   @Column()
   ciudad: string;
+  @OneToMany(() => Compra, (compra) => compra.client)
+  compras: Compra;
   @CreateDateColumn()
   createdAt: Date;
   @UpdateDateColumn()
