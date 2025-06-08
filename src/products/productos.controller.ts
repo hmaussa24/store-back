@@ -17,7 +17,6 @@ import { UpdateProductoDto } from './dtos/update-producto.dto';
 export class ProductosController {
   constructor(private readonly productosService: ProductosService) {}
 
-  @UseGuards(AuthGuard('jwt'))
   @Get()
   findAll() {
     return this.productosService.findAll();
